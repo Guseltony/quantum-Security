@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Rajdhani:wght@300;400;500;600;700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import 'tailwindcss';
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #050b1a;
+  color: #ffffff;
+  overflow-x: hidden;
+  font-family: 'Raleway', sans-serif;
+}
+
+h1 {
+  font-family: 'Exo 2', sans-serif;
+}
+button {
+  font-family: 'Inter', sans-serif;
+}
+
+button:hover {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 3s ease-in-out infinite;
+}
+
+@keyframes bounceSlow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
