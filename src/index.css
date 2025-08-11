@@ -17,15 +17,27 @@ h1 {
 }
 button {
   font-family: 'Inter', sans-serif;
+
 }
 
-button:hover {
+/* button:hover {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-}
+} */
 
 .animate-bounce-slow {
   animation: bounceSlow 3s ease-in-out infinite;
 }
+
+@layer utilities {
+  .clip-path-button {
+    clip-path: polygon(0 0, 75% 0%, 100% 50%, 100% 100%, 20% 100%, 0 50%);
+  }
+
+  .hover\:clip-path-rectangle:hover {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
 
 @keyframes bounceSlow {
   0%,
