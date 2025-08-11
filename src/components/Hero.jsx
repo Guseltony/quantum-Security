@@ -3,6 +3,10 @@ import React, { useEffect, useRef } from 'react'
 import { images } from '../assets/imageAssets'
 // import {useGSAP} from 'gsap'
 import gsap from 'gsap'
+import { SplitText } from 'gsap/SplitText';
+
+// Register SplitText plugin
+gsap.registerPlugin(SplitText);
 
 const Hero = () => {
 
@@ -14,25 +18,46 @@ const Hero = () => {
                     url(/src/assets/images/hero-bg.png) bottom/cover no-repeat`,
     }
 
-     useEffect(() => {
-    // 2. Only run if the ref is connected
-    if (heroTitle.current) {
-      gsap.fromTo(
-        heroTitle.current, // Target the DOM element
-        { opacity: 0}, // Initial state
-        { 
-          opacity: 1, // Final state
-        //   y: 0, // Add vertical movement for better effect
-          duration: 1.5, // Animation duration
-          ease: "power1.inOut" // Smooth easing
+    useEffect(() => {
+        if (heroTitle.current) {
+        // Create a timeline for sequenced animations
+        const tl = gsap.timeline({ defaults: { ease: "power1.inOut" } });
+        
+        // First animate the container
+        tl.fromTo(heroTitle.current,
+            { opacity: 0, y: 50 },
+            { opacity: 1, y: 0, duration: 0.8 }
+        );
+        
+        // Then animate each character individually
+            const split = new SplitText(heroTitle.current, { type: "chars" });
+        
+        tl.from(split.chars, {
+            opacity: 0,
+            y: 30,
+            rotationX: 90,
+            stagger: 0.05,
+            duration: 0.8,
+            ease: "back.out(3)"
+        }, "+=0.2"); // slight delay after container animation
+        
+        // Add a subtle glow/pulse effect that loops
+        tl.to(heroTitle.current, {
+            duration: 2,
+            textShadow: "0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 200, 255, 0.5)",
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut"
+        }, "-=0.5"); // overlap with previous animation
+        
+        // Cleanup function
+        return () => {
+            split.revert(); // Important for cleanup
+        };
         }
-      );
-    }
-  }, []); //
+  }, []);
 
-    // useEffect(() => {
-    //     animateHero();
-    // }, [])
+
 
 
     return (
@@ -40,8 +65,8 @@ const Hero = () => {
         <div className='z-20 relative flex flex-col md:flex-row items-center justify-between gap-8 max-w-[90%] mx-auto md:p-8 h-[100%] '>
     {/* Left Text */}
             <div className='flex-1 min-w-full md:min-w-[50%]'>
-                <h1 className='z-20 uppercase text-7xl font-extrabold opacity-0' ref={heroTitle}>Quantum Security</h1>
-                <p className='z-30 mt-8 text-base max-w-[90%] leading-relaxed'>
+                <h1 className='z-20 uppercase text-6xl font-extrabold opacity-0' ref={heroTitle}>Quantum Security</h1>
+                <p className='header-p z-30 mt-8 text-base max-w-[90%] leading-relaxed'>
                     Protecting your digital world from an ever-evolving landscape of cyber threats. 
                     Our cutting-edge quantum security framework ensures your data remains safe, even 
                     against next-generation hacking techniques. From enterprise networks to personal 
